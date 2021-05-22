@@ -4,12 +4,90 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bulma CDN link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
     <!-- Link css -->
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Weather Dashboard</title>
 </head>
 <body>
-    
+    <!-- header -->
+    <header class="title box has-text-centered">Weather Dashboard</header>
+    <!-- main content -->
+    <main class="columns">
+        <div class="is-one-quarter m-2">
+            <div class="card p-5 m-2">
+                <div class="field">
+                    <label class="label">Search for a City</label>
+                    <div class="control">
+                      <input class="input" type="text" placeholder="Text input">
+                      <button type="submit" class="button mt-2 is-fullwidth">Search</button>
+                    </div>
+                  </div>
+            </div>
+            <!-- Default Cities -->
+            <div class="card p-5 m-2">
+                <button class="button mt-2 is-fullwidth">Toronto</button>
+                <button class="button mt-2 is-fullwidth">Mississauga</button>
+                <button class="button mt-2 is-fullwidth">Brampton</button>
+                <button class="button mt-2 is-fullwidth">North York</button>
+                <button class="button mt-2 is-fullwidth">London</button>
+                <button class="button mt-2 is-fullwidth">Nigara Falls</button>
+                <button class="button mt-2 is-fullwidth">Alberta</button>
+            </div>
+        </div>
+        <div class="column mt-1 m-b-2 mr-2">
+            <div class="card p-5">
+                <h2 class="title is-2">Toronto <span class="date"></span></h2>
+                <p class="is-capitalized mb-2">Temp : <span></span></p>
+                <p class="is-capitalized mb-2">Wind : <span></span></p>
+                <p class="is-capitalized mb-2">Humidity : <span></span></p>
+                <p class="is-capitalized mb-2">UV Index : <span></span></p>
+            </div>
+
+            <div class="mt-5 p-1">
+                <h3 class="title is-3">5 Day Forcast</h3>
+                <div class="columns">
+                    <div class="column card p-3 m-2">
+                        <h4>Date</h4>
+                        <span>Icon</span>
+                        <p class="is-capitalized mb-2">Temp : <span></span></p>
+                        <p class="is-capitalized mb-2">Wind : <span></span></p>
+                        <p class="is-capitalized mb-2">Humidity : <span></span></p>
+                    </div>
+                    <div class="column card p-3 m-2">
+                        <h4>Date</h4>
+                        <span>Icon</span>
+                        <p class="is-capitalized mb-2">Temp : <span></span></p>
+                        <p class="is-capitalized mb-2">Wind : <span></span></p>
+                        <p class="is-capitalized mb-2">Humidity : <span></span></p>
+                    </div>
+                    <div class="column card p-3 m-2">
+                        <h4>Date</h4>
+                        <span>Icon</span>
+                        <p class="is-capitalized mb-2">Temp : <span></span></p>
+                        <p class="is-capitalized mb-2">Wind : <span></span></p>
+                        <p class="is-capitalized mb-2">Humidity : <span></span></p>
+                    </div>
+                    <div class="column card p-3 m-2">
+                        <h4>Date</h4>
+                        <span>Icon</span>
+                        <p class="is-capitalized mb-2">Temp : <span></span></p>
+                        <p class="is-capitalized mb-2">Wind : <span></span></p>
+                        <p class="is-capitalized mb-2">Humidity : <span></span></p>
+                    </div>
+                    <div class="column card p-3 m-2">
+                        <h4>Date</h4>
+                        <span>Icon</span>
+                        <p class="is-capitalized mb-2">Temp : <span></span></p>
+                        <p class="is-capitalized mb-2">Wind : <span></span></p>
+                        <p class="is-capitalized mb-2">Humidity : <span></span></p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
     <!-- Link js file -->
     <script src="./assets/js/script.js"></script>
 </body>
