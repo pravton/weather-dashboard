@@ -6,54 +6,56 @@ var apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json
 var cityInput = document.querySelector("#cityForm");
 var cityValue = "Toronto";
 
+//function for the submit Button
 var cityInputButtonHandler = cityInput.addEventListener("submit", function(event) {
     event.preventDefault();
     cityValue = document.querySelector("#cityInput").value;
-
+    //API url
     apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
-
+    //Pass the url
     apiGoogleCoordCall(apiUrlGoogleCoordinates);
     
 });
 
+//API call function to get the city lat and lng
 var apiGoogleCoordCall = function(url) {
     fetch(url)
     .then(function(response) {
         response.json()
         .then(function(data) {
-        console.log(data);
+        //console.log(data);
         passGoogleData(data);
         })  
     });
-}
+};
 
+//pass the retrived google data to apiweathercall funtion
 var passGoogleData = function(data) {
     var lat = data.results[0].geometry.location.lat;
-    console.log("this is lat", lat);
+    //console.log("this is lat", lat);
     var lng = data.results[0].geometry.location.lng;
-    console.log("this is lat", lng);
+    //console.log("this is lat", lng);
 
+    //API url
     apiUrlCurrentWeather = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lng + "&units=metric&appid=147c783a9d14b60563419ed8e17c02ec&"
-
+    //pass the url
     apiWeatherCall(apiUrlCurrentWeather);
 
-}
+};
 
+//function for the API weathercall
 var apiWeatherCall = function(url) {
     fetch(url)
     .then(function(response) {
         response.json()
         .then(function(data) {
-        console.log(data);
+        //console.log(data);
         displayCurrentWeather(data);
         })  
     });
-}
+};
 
-
-
-
-
+//display the data for current city
 var displayCurrentWeather = function(data) {
     var currentCityTitle = document.querySelector("#currentCityTitle");
     var weatherIcon = document.querySelector(".weatherIcon");
@@ -62,7 +64,7 @@ var displayCurrentWeather = function(data) {
     weatherIcon.setAttribute("src", "https://openweathermap.org/img/wn/" + data.current.weather[0].icon +".png");
     // var currentDate = new Date();
     // var date = currentDate.getFullYear()+'/'+(currentDate.getMonth()+1)+'/'+currentDate.getDate();
-    dateEl.textContent = ` (${dayjs().format('MMMM D, YYYY h:mm A')})`;
+    dateEl.textContent = ` (${dayjs().format('MMMM D, YYYY')})`;
 
     var currentWeather = document.querySelector("#currentWeather");
     var temp = document.querySelector(".tempData");
@@ -74,8 +76,6 @@ var displayCurrentWeather = function(data) {
     wind.textContent = data.current.wind_speed + " KM/h";
     humid.textContent = data.current.humidity + " %";
     uvInd.textContent = data.current.uvi;
-
-    console.log(data.current.wind_speed);
     
     // //displayTemperatue
     // var tempEl = document.createElement("p");
@@ -95,5 +95,6 @@ var displayCurrentWeather = function(data) {
     // currentWeather.appendChild(uvInEl);
 }
 
+//call the google coord for the default city
 apiGoogleCoordCall(apiUrlGoogleCoordinates);
 
