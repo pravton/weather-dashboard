@@ -19,10 +19,10 @@
             <div class="card p-5 m-2">
                 <div class="field">
                     <label class="label">Search for a City</label>
-                    <div class="control">
-                      <input class="input" type="text" placeholder="Text input">
+                    <form id="cityForm" class="control">
+                      <input id="cityInput" class="input" type="text" placeholder="Text input">
                       <button type="submit" class="button mt-2 is-fullwidth">Search</button>
-                    </div>
+                    </form>
                   </div>
             </div>
             <!-- Default Cities -->
@@ -37,12 +37,12 @@
             </div>
         </div>
         <div class="column mt-1 m-b-2 mr-2">
-            <div class="card p-5">
-                <h2 class="title is-2">Toronto <span class="date"></span></h2>
-                <p class="is-capitalized mb-2">Temp : <span></span></p>
-                <p class="is-capitalized mb-2">Wind : <span></span></p>
-                <p class="is-capitalized mb-2">Humidity : <span></span></p>
-                <p class="is-capitalized mb-2">UV Index : <span></span></p>
+            <div id="currentWeather" class="card p-5">
+                <h2 id="currentCity" class="title is-2 is-flex"><span id="currentCityTitle" class="pr-2">Toronto</span><span class="currentDate pr-2 is-size-4"></span> <img class="weatherIcon"></h2>
+                <p class="is-capitalized mb-2">Temp : <span class="tempData"></span></p>
+                <p class="is-capitalized mb-2">Wind : <span class="windData"></span></p>
+                <p class="is-capitalized mb-2">Humidity : <span class="humidData"></span></p>
+                <p class="is-capitalized mb-2">UV Index : <span class="uvInData"></span></p>
             </div>
 
             <div class="mt-5 p-1">
@@ -58,9 +58,9 @@
                     <div class="column card p-3 m-2">
                         <h4>Date</h4>
                         <span>Icon</span>
-                        <p class="is-capitalized mb-2">Temp : <span></span></p>
-                        <p class="is-capitalized mb-2">Wind : <span></span></p>
-                        <p class="is-capitalized mb-2">Humidity : <span></span></p>
+                        <p class="is-capitalized mb-2">Temp : <span class="tempData"></span></p>
+                        <p class="is-capitalized mb-2">Wind : <span class="windData"></span></p>
+                        <p class="is-capitalized mb-2">Humidity : <span class="humidityData"></span></p>
                     </div>
                     <div class="column card p-3 m-2">
                         <h4>Date</h4>
@@ -89,6 +89,7 @@
         </div>
     </main>
     <!-- Link js file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
