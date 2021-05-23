@@ -12,21 +12,22 @@
 </head>
 <body>
     <!-- header -->
-    <header class="title box has-text-centered">Weather Dashboard</header>
+    <header class="title box has-text-centered m-3">Weather Dashboard</header>
     <!-- main content -->
-    <main class="columns">
-        <div class="is-one-quarter m-2">
-            <div class="card p-5 m-2">
+    <main class="columns p-3">
+        <div class="is-one-quarter m-3">
+            <div class="card p-5">
                 <div class="field">
                     <label class="label">Search for a City</label>
                     <form id="cityForm" class="control">
-                      <input id="cityInput" class="input" type="text" placeholder="Text input">
+                      <input id="cityInput" class="input" type="text" placeholder="Toronto">
                       <button type="submit" class="button mt-2 is-fullwidth">Search</button>
                     </form>
                   </div>
             </div>
             <!-- Default Cities -->
-            <div class="card p-5 m-2">
+            <div id="defaultCities" class="card p-5 mt-5">
+                <p>Or Select From These</p>
                 <button class="button mt-2 is-fullwidth">Toronto</button>
                 <button class="button mt-2 is-fullwidth">Mississauga</button>
                 <button class="button mt-2 is-fullwidth">Brampton</button>
@@ -36,9 +37,13 @@
                 <button class="button mt-2 is-fullwidth">Alberta</button>
             </div>
         </div>
-        <div class="column mt-1 m-b-2 mr-2">
+        <div class="column">
             <div id="currentWeather" class="card p-5">
-                <h2 id="currentCity" class="title is-2 is-flex"><span id="currentCityTitle" class="pr-2">Toronto</span><span class="currentDate pr-2 is-size-4"></span> <img class="weatherIcon"></h2>
+                <h3 id="currentCity" class="title is-3 m-0"><span id="currentCityTitle" class="pr-2">Toronto</span></h3>
+                <div class="is-flex">
+                    <h4 class="currentDate pr-2 is-size-4"></h4>
+                    <img class="weatherIcon">
+                </div>
                 <p class="is-capitalized mb-2">Temp : <span class="tempData"></span></p>
                 <p class="is-capitalized mb-2">Wind : <span class="windData"></span></p>
                 <p class="is-capitalized mb-2">Humidity : <span class="humidData"></span></p>
@@ -47,8 +52,8 @@
 
             <div class="mt-5 p-1">
                 <h3 class="title is-3">5 Day Forcast</h3>
-                <div class="columns">
-                    <div class="column card p-3 m-2">
+                <div id="fiveDayForcast" class="columns is-half tablet is-desktop">
+                    <!-- <div class="column card p-3 m-2">
                         <h4>Date</h4>
                         <span>Icon</span>
                         <p class="is-capitalized mb-2">Temp : <span></span></p>
@@ -82,7 +87,8 @@
                         <p class="is-capitalized mb-2">Temp : <span></span></p>
                         <p class="is-capitalized mb-2">Wind : <span></span></p>
                         <p class="is-capitalized mb-2">Humidity : <span></span></p>
-                    </div>
+                    </div> -->
+
                     
                 </div>
             </div>
