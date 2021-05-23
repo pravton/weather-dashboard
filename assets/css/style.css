@@ -1,7 +1,40 @@
-.currentDate {
+.is-align-self {
     align-self: center;
 }
 
 .is-flex-wrap {
     flex-wrap: wrap
+}
+
+.min-width-200 {
+    min-width: 200px;
+}
+
+body {
+    background-color: #a6d6d6;
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6,a {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+p {
+    font-family: 'Merriweather', serif;
+}
+
+.five-day-card p {
+    padding-bottom: 10px;
+}
+
+.button.is-info.is-light {
+    background-color: #a6d6d64f; 
+    color: #4e6d6d;
+}
+
+.button.is-info.is-light:hover {
+    background-color: #a6d6d69c;
+    color: #4e6d6d;
 }

@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Link -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Bulma CDN link -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
     <!-- Link css -->
@@ -12,36 +15,41 @@
 </head>
 <body>
     <!-- header -->
-    <header class="title box has-text-centered m-3">Weather Dashboard</header>
+    <header class="p-3">
+        <div class="title box has-text-centered">
+            Weather Dashboard
+        </div>  
+    </header>
     <!-- main content -->
     <main class="columns p-3">
         <div class="is-one-quarter m-3">
             <div class="card p-5">
                 <div class="field">
-                    <label class="label">Search for a City</label>
+                    <label class="label is-size-5">Search for a City</label>
                     <form id="cityForm" class="control">
                       <input id="cityInput" class="input" type="text" placeholder="Toronto">
-                      <button type="submit" class="button mt-2 is-fullwidth">Search</button>
+                      <button type="submit" class="button mt-2 is-fullwidth is-info is-light">Search</button>
                     </form>
                   </div>
             </div>
             <!-- Default Cities -->
             <div id="defaultCities" class="card p-5 mt-5">
-                <p>Or Select From These</p>
-                <button class="button mt-2 is-fullwidth">Toronto</button>
-                <button class="button mt-2 is-fullwidth">Mississauga</button>
-                <button class="button mt-2 is-fullwidth">Brampton</button>
-                <button class="button mt-2 is-fullwidth">North York</button>
-                <button class="button mt-2 is-fullwidth">London</button>
-                <button class="button mt-2 is-fullwidth">Nigara Falls</button>
-                <button class="button mt-2 is-fullwidth">Alberta</button>
+                <h5 class="is-size-5">Choose a City</h5>
+                <button class="button mt-2 is-fullwidth is-info is-light">Toronto</button>
+                <button class="button mt-2 is-fullwidth is-info is-light">Mississauga</button>
+                <button class="button mt-2 is-fullwidth is-info is-light">Brampton</button>
+                <button class="button mt-2 is-fullwidth is-info is-light">North York</button>
+                <button class="button mt-2 is-fullwidth is-info is-light">London</button>
+                <button class="button mt-2 is-fullwidth is-info is-light">Nigara Falls</button>
+                <button class="button mt-2 is-fullwidth is-info is-light">Alberta</button>
             </div>
         </div>
         <div class="column">
             <div id="currentWeather" class="card p-5">
                 <h3 id="currentCity" class="title is-3 m-0"><span id="currentCityTitle" class="pr-2">Toronto</span></h3>
-                <div class="is-flex">
-                    <h4 class="currentDate pr-2 is-size-4"></h4>
+                <div class="is-flex is-flex-wrap">
+                    <h4 class="currentDate pr-2 is-size-4 is-align-self"></h4>
+                    <h4 class="currentWeather pr-2 is-size-4 is-align-self"></h4>
                     <img class="weatherIcon">
                 </div>
                 <p class="is-capitalized mb-2">Temp : <span class="tempData"></span></p>
@@ -52,7 +60,7 @@
 
             <div class="mt-5 p-1">
                 <h3 class="title is-3">5 Day Forcast</h3>
-                <div id="fiveDayForcast" class="columns is-half tablet is-desktop">
+                <div id="fiveDayForcast" class="columns is-flex-wrap">
                     <!-- <div class="column card p-3 m-2">
                         <h4>Date</h4>
                         <span>Icon</span>

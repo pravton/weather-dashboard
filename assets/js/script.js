@@ -77,11 +77,13 @@ var displayCurrentWeather = function(data) {
     //var currentCityTitle = document.querySelector("#currentCityTitle");
     var weatherIcon = document.querySelector(".weatherIcon");
     var dateEl = document.querySelector(".currentDate");
+    var weatherEl = document.querySelector(".currentWeather");
     //currentCityTitle.textContent = cityValue;
     weatherIcon.setAttribute("src", "https://openweathermap.org/img/wn/" + data.current.weather[0].icon +".png");
     // var currentDate = new Date();
     // var date = currentDate.getFullYear()+'/'+(currentDate.getMonth()+1)+'/'+currentDate.getDate();
     dateEl.textContent = ` (${dayjs.unix(data.current.dt).format('MMMM D, YYYY')})`;
+    weatherEl.textContent = " - " + data.current.weather[0].main;
 
     var currentWeather = document.querySelector("#currentWeather");
     var temp = document.querySelector(".tempData");
@@ -121,13 +123,13 @@ var fiveDayForcast = function(data) {
 
     for(var i = 1; i < 6; i++) {
         var fiveDayCard = document.createElement("div");
-        fiveDayCard.classList = "column card p-3 m-2";
+        fiveDayCard.classList = "column card p-3 m-2 min-width-200 five-day-card";
         forcastEl.appendChild(fiveDayCard);
         var dateEl = document.createElement("h4");
-        dateEl.textContent = dayjs.unix(data.daily[i].dt).format('MMMM D, YYYY');
+        dateEl.textContent = dayjs.unix(data.daily[i].dt).format('MMMM D, YYYY') + " - " + data.daily[i].weather[0].main;
         fiveDayCard.appendChild(dateEl);
         var dateIconEl = document.createElement("img");
-        dateIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + data.daily[0].weather[0].icon +".png");
+        dateIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon +".png");
         fiveDayCard.appendChild(dateIconEl);
         var tempEl = document.createElement("p");
         tempEl.textContent = "Temp : " + data.daily[i].temp.max + "/" + data.daily[i].temp.min + " °C";
