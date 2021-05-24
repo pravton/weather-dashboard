@@ -31,20 +31,14 @@
                       <input id="cityInput" class="input" type="text" placeholder="Toronto">
                       <button type="submit" class="button mt-2 is-fullwidth is-info is-light">Search</button>
                     </form>
+                    <button id="currentLocButton" class="button mt-2 is-fullwidth is-info is-light">Current Location</button>
+                    <div class="errorMsg notification-hide notification is-danger">Please enter a city!</div>
                   </div>
             </div>
             <!-- Default Cities -->
             <div id="defaultCities" class="card p-5 mt-5">
                 <h5 class="collapsible is-size-5 is-align">Choose a City <i class="far fa-hand-point-up"></i></h5>
-                <div class="buttonsContainer">
-                    <button class="button mt-2 is-fullwidth is-info is-light">Toronto</button>
-                    <button class="button mt-2 is-fullwidth is-info is-light">Mississauga</button>
-                    <button class="button mt-2 is-fullwidth is-info is-light">Brampton</button>
-                    <button class="button mt-2 is-fullwidth is-info is-light">North York</button>
-                    <button class="button mt-2 is-fullwidth is-info is-light">London</button>
-                    <button class="button mt-2 is-fullwidth is-info is-light">Nigara Falls</button>
-                    <button class="button mt-2 is-fullwidth is-info is-light">Alberta</button>
-                </div>
+                <div id="recentCities" class="buttonsContainer"></div>
             </div>
         </div>
         <div class="column">

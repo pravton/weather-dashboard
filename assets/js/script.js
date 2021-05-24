@@ -1,24 +1,88 @@
 // Variables
 var cityInput = document.querySelector("#cityForm");
+var currentLocButton = document.querySelector("#currentLocButton");
 var cityValue = "Toronto";
 var defaultCitiesEl = document.querySelector("#defaultCities");
+var recentCities = ["Edmonton", "Ottowa", "London", "Nigara","Mississauga", "Brampton", "North York", "Toronto"];
 
+// API for Google Coordinates
 var apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
 
 //function for the submit Button
 var cityInputButtonHandler = cityInput.addEventListener("submit", function(event) {
     event.preventDefault();
-    cityValue = document.querySelector("#cityInput").value;
-    //API url
-    apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
-    //Pass the url
-    apiGoogleCoordCall(apiUrlGoogleCoordinates);
+    var errorMsgEl = document.querySelector(".errorMsg");
+    cityValue = document.querySelector("#cityInput").value.trim();
+
+    if(!cityValue) {
+        errorMsgEl.classList.remove("notification-hide");
+        errorMsgEl.classList.add("notification-display");
+        return;
+    } else {
+        if(errorMsgEl) {
+            errorMsgEl.classList.remove("notification-display");
+            errorMsgEl.classList.add("notification-hide");
+            // errorMsgEl.style.display = "none";
+        }
+        //save the new city value in recentCities
+        recentCities.push(cityValue);
+        //remove the duplicates
+        recentCities = [...new Set(recentCities)]
+        //limit the recentCities to eight elements
+        if (recentCities.length > 8) {
+            recentCities.splice(0,1);
+        }
+
+        //save data when the button is clicked
+        saveData();
+        //load data when the button is clicked
+        loadData();
+
+        //API url
+        apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
+        //Pass the url
+        apiGoogleCoordCall(apiUrlGoogleCoordinates);
+        }
     
 });
 
-//variable for the default citites
+// Function to create the recent cities buttons
+var recentCitiesButtons = function() {
+    var buttonsContainer = document.querySelector("#recentCities");
+    
+    buttonsContainer.innerHTML = "";
 
+    for(var i = recentCities.length - 1; i >= 0; i--) {
+        var buttonsEl = document.createElement("button");
+        buttonsEl.classList = "button mt-2 is-fullwidth is-info is-light is-capitalize";
+        buttonsEl.textContent = recentCities[i];
 
+        buttonsContainer.appendChild(buttonsEl);
+    }
+};
+
+//Function to save the data
+var saveData = function() {
+    localStorage.setItem("recentCities", JSON.stringify(recentCities));
+};
+
+//funtion to load the data
+var loadData = function() {
+    //load data from local storage
+    loadedData = JSON.parse(localStorage.getItem("recentCities"));
+
+    //if the local storage is empty save the default list to local storage
+    if (!loadedData) {
+        saveData();
+    } else {
+        recentCities = loadedData;
+    }
+
+    //create the buttons with loaded data
+    recentCitiesButtons();
+};
+
+//Get button value and pass it to Open Weather to display the result
 defaultCitiesEl.addEventListener("click", function(event) {
     //if a button is clicked run the apiGoogleCoordCall
     if (event.target.matches(".button")) {
@@ -28,7 +92,26 @@ defaultCitiesEl.addEventListener("click", function(event) {
         apiGoogleCoordCall(apiUrlGoogleCoordinates);
     }
 
-})
+});
+
+//get the current location and pass it to Open Weather to display the result
+currentLocButton.addEventListener("click", function() {
+    var errorMsgEl = document.querySelector(".errorMsg");
+    if(errorMsgEl.classList.contains("notification-display")) {
+        errorMsgEl.classList.remove("notification-display");
+        errorMsgEl.classList.add("notification-hide");
+    }    
+    navigator.geolocation.getCurrentPosition((data) => {
+        //const geocoder = new google.maps.Geocoder();
+            var lat = data.coords.latitude;
+            var lng = data.coords.longitude;
+
+        //create the url based on the current latlng
+        reverseLookupurl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +lat+ "," + lng + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
+        //pass the url to apiGoogleCoordCall
+        apiGoogleCoordCall(reverseLookupurl);
+    });
+});
 
 //API call function to get the city lat and lng
 var apiGoogleCoordCall = function(url) {
@@ -52,7 +135,7 @@ var passGoogleData = function(data) {
     currentCityTitle.textContent = data.results[0].formatted_address;
 
     //API url
-    apiUrlCurrentWeather = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lng + "&units=metric&appid=147c783a9d14b60563419ed8e17c02ec&"
+    apiUrlCurrentWeather = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lng + "&units=metric&appid=147c783a9d14b60563419ed8e17c02ec&";
     //pass the url
     apiWeatherCall(apiUrlCurrentWeather);
 
@@ -126,10 +209,7 @@ var fiveDayForcast = function(data) {
     }
 }
 
-var collapseOnMobile = function() {
-
-}
-
+//Buttons container collapse function on mobile. 
 var collapseButton = document.querySelector(".collapsible");
 
 collapseButton.addEventListener("click", function() {
@@ -145,3 +225,5 @@ collapseButton.addEventListener("click", function() {
 //call the google coord for the default city
 apiGoogleCoordCall(apiUrlGoogleCoordinates);
 
+//load the data from local storage
+loadData();
