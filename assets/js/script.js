@@ -1,10 +1,9 @@
-// fetch the city temperature data
-var apiUrlCurrentWeather = "http://api.openweathermap.org/data/2.5/weather?q=toronto&appid=147c783a9d14b60563419ed8e17c02ec"
-var apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=toronto&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs"
-
 // Variables
 var cityInput = document.querySelector("#cityForm");
 var cityValue = "Toronto";
+var defaultCitiesEl = document.querySelector("#defaultCities");
+
+var apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
 
 //function for the submit Button
 var cityInputButtonHandler = cityInput.addEventListener("submit", function(event) {
@@ -17,18 +16,17 @@ var cityInputButtonHandler = cityInput.addEventListener("submit", function(event
     
 });
 
-var defaultCitiesEl = document.querySelector("#defaultCities");
+//variable for the default citites
+
 
 defaultCitiesEl.addEventListener("click", function(event) {
-    console.log(event.target);
-
-    var targetCity = event.target.innerHTML;
-
-    cityValue = targetCity;
-
-    console.log(cityValue);
-    apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
-    apiGoogleCoordCall(apiUrlGoogleCoordinates);
+    //if a button is clicked run the apiGoogleCoordCall
+    if (event.target.matches(".button")) {
+        var targetCity = event.target.innerHTML;
+        cityValue = targetCity;
+        apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
+        apiGoogleCoordCall(apiUrlGoogleCoordinates);
+    }
 
 })
 
@@ -38,7 +36,7 @@ var apiGoogleCoordCall = function(url) {
     .then(function(response) {
         response.json()
         .then(function(data) {
-        console.log(data);
+        //console.log(data);
         passGoogleData(data);
         })  
     });
@@ -66,7 +64,7 @@ var apiWeatherCall = function(url) {
     .then(function(response) {
         response.json()
         .then(function(data) {
-        console.log(data);
+        //console.log(data);
         displayCurrentWeather(data);
         })  
     });
@@ -85,7 +83,7 @@ var displayCurrentWeather = function(data) {
     dateEl.textContent = ` (${dayjs.unix(data.current.dt).format('MMMM D, YYYY')})`;
     weatherEl.textContent = " - " + data.current.weather[0].main;
 
-    var currentWeather = document.querySelector("#currentWeather");
+    //var currentWeather = document.querySelector("#currentWeather");
     var temp = document.querySelector(".tempData");
     var wind = document.querySelector(".windData");
     var humid = document.querySelector(".humidData");
@@ -95,24 +93,8 @@ var displayCurrentWeather = function(data) {
     wind.textContent = data.current.wind_speed + " KM/h";
     humid.textContent = data.current.humidity + " %";
     uvInd.textContent = data.current.uvi;
-    
-    // //displayTemperatue
-    // var tempEl = document.createElement("p");
-    // tempEl.textContent = "Temp : " + data.current.temp;
-    // currentWeather.appendChild(tempEl);
-    // //Dsiplay Wind
-    // var windEl = document.createElement("p");
-    // windEl.textContent = "Wind : " + data.current.wind_speed;
-    // currentWeather.appendChild(windEl);
-    // //Display Humidity
-    // var humidityEl = document.createElement("p");
-    // humidityEl.textContent = "Humidity : " + data.current.humidity;
-    // currentWeather.appendChild(humidityEl);
-    // //Display UV Index
-    // var uvInEl = document.createElement("p");
-    // uvInEl.textContent = "UV Index : " + data.current.uvi;
-    // currentWeather.appendChild(uvInEl);
 
+    //pass the data to fiveDayForcast
     fiveDayForcast(data);
 }
 
@@ -121,6 +103,7 @@ var fiveDayForcast = function(data) {
     forcastEl.innerHTML = "";
     //console.log("5day", forcastEl);
 
+    //loop the 5 day cards
     for(var i = 1; i < 6; i++) {
         var fiveDayCard = document.createElement("div");
         fiveDayCard.classList = "column card p-3 m-2 min-width-200 five-day-card";
@@ -142,6 +125,22 @@ var fiveDayForcast = function(data) {
         fiveDayCard.appendChild(HumidEl);
     }
 }
+
+var collapseOnMobile = function() {
+
+}
+
+var collapseButton = document.querySelector(".collapsible");
+
+collapseButton.addEventListener("click", function() {
+    this.classList.toggle("active");
+    var buttons = this.nextElementSibling;
+    if (buttons.style.maxHeight) {
+        buttons.style.maxHeight = null;
+    } else {
+        buttons.style.maxHeight = buttons.scrollHeight + "px";
+    }
+});
 
 //call the google coord for the default city
 apiGoogleCoordCall(apiUrlGoogleCoordinates);

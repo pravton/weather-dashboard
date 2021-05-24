@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Font Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Bulma CDN link -->
@@ -25,7 +26,7 @@
         <div class="is-one-quarter m-3">
             <div class="card p-5">
                 <div class="field">
-                    <label class="label is-size-5">Search for a City</label>
+                    <label class="label is-size-5 is-align">Search for a City <i class="fas fa-search"></i></label>
                     <form id="cityForm" class="control">
                       <input id="cityInput" class="input" type="text" placeholder="Toronto">
                       <button type="submit" class="button mt-2 is-fullwidth is-info is-light">Search</button>
@@ -34,14 +35,16 @@
             </div>
             <!-- Default Cities -->
             <div id="defaultCities" class="card p-5 mt-5">
-                <h5 class="is-size-5">Choose a City</h5>
-                <button class="button mt-2 is-fullwidth is-info is-light">Toronto</button>
-                <button class="button mt-2 is-fullwidth is-info is-light">Mississauga</button>
-                <button class="button mt-2 is-fullwidth is-info is-light">Brampton</button>
-                <button class="button mt-2 is-fullwidth is-info is-light">North York</button>
-                <button class="button mt-2 is-fullwidth is-info is-light">London</button>
-                <button class="button mt-2 is-fullwidth is-info is-light">Nigara Falls</button>
-                <button class="button mt-2 is-fullwidth is-info is-light">Alberta</button>
+                <h5 class="collapsible is-size-5 is-align">Choose a City <i class="far fa-hand-point-up"></i></h5>
+                <div class="buttonsContainer">
+                    <button class="button mt-2 is-fullwidth is-info is-light">Toronto</button>
+                    <button class="button mt-2 is-fullwidth is-info is-light">Mississauga</button>
+                    <button class="button mt-2 is-fullwidth is-info is-light">Brampton</button>
+                    <button class="button mt-2 is-fullwidth is-info is-light">North York</button>
+                    <button class="button mt-2 is-fullwidth is-info is-light">London</button>
+                    <button class="button mt-2 is-fullwidth is-info is-light">Nigara Falls</button>
+                    <button class="button mt-2 is-fullwidth is-info is-light">Alberta</button>
+                </div>
             </div>
         </div>
         <div class="column">
@@ -60,44 +63,7 @@
 
             <div class="mt-5 p-1">
                 <h3 class="title is-3">5 Day Forcast</h3>
-                <div id="fiveDayForcast" class="columns is-flex-wrap">
-                    <!-- <div class="column card p-3 m-2">
-                        <h4>Date</h4>
-                        <span>Icon</span>
-                        <p class="is-capitalized mb-2">Temp : <span></span></p>
-                        <p class="is-capitalized mb-2">Wind : <span></span></p>
-                        <p class="is-capitalized mb-2">Humidity : <span></span></p>
-                    </div>
-                    <div class="column card p-3 m-2">
-                        <h4>Date</h4>
-                        <span>Icon</span>
-                        <p class="is-capitalized mb-2">Temp : <span class="tempData"></span></p>
-                        <p class="is-capitalized mb-2">Wind : <span class="windData"></span></p>
-                        <p class="is-capitalized mb-2">Humidity : <span class="humidityData"></span></p>
-                    </div>
-                    <div class="column card p-3 m-2">
-                        <h4>Date</h4>
-                        <span>Icon</span>
-                        <p class="is-capitalized mb-2">Temp : <span></span></p>
-                        <p class="is-capitalized mb-2">Wind : <span></span></p>
-                        <p class="is-capitalized mb-2">Humidity : <span></span></p>
-                    </div>
-                    <div class="column card p-3 m-2">
-                        <h4>Date</h4>
-                        <span>Icon</span>
-                        <p class="is-capitalized mb-2">Temp : <span></span></p>
-                        <p class="is-capitalized mb-2">Wind : <span></span></p>
-                        <p class="is-capitalized mb-2">Humidity : <span></span></p>
-                    </div>
-                    <div class="column card p-3 m-2">
-                        <h4>Date</h4>
-                        <span>Icon</span>
-                        <p class="is-capitalized mb-2">Temp : <span></span></p>
-                        <p class="is-capitalized mb-2">Wind : <span></span></p>
-                        <p class="is-capitalized mb-2">Humidity : <span></span></p>
-                    </div> -->
-
-                    
+                <div id="fiveDayForcast" class="columns is-flex-wrap"> 
                 </div>
             </div>
         </div>

@@ -1,15 +1,4 @@
-.is-align-self {
-    align-self: center;
-}
-
-.is-flex-wrap {
-    flex-wrap: wrap
-}
-
-.min-width-200 {
-    min-width: 200px;
-}
-
+/* Basic Style */
 body {
     background-color: #a6d6d6;
     min-height: 100vh;
@@ -25,6 +14,26 @@ p {
     font-family: 'Merriweather', serif;
 }
 
+/* Default classes */
+.is-align-self {
+    align-self: center;
+}
+
+.is-flex-wrap {
+    flex-wrap: wrap
+}
+
+.min-width-200 {
+    min-width: 200px;
+}
+
+.is-align {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* custom style */
 .five-day-card p {
     padding-bottom: 10px;
 }
@@ -37,4 +46,17 @@ p {
 .button.is-info.is-light:hover {
     background-color: #a6d6d69c;
     color: #4e6d6d;
+}
+
+@media only screen and (max-width: 770px) {
+    .collapsible {
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .buttonsContainer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+      }
 }
