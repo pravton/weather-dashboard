@@ -41,20 +41,32 @@
                 <div id="recentCities" class="buttonsContainer"></div>
             </div>
         </div>
+        <!-- Display Column -->
         <div class="column">
-            <div id="currentWeather" class="card p-5">
-                <h3 id="currentCity" class="title is-3 m-0"><span id="currentCityTitle" class="pr-2">Toronto</span></h3>
-                <div class="is-flex is-flex-wrap">
-                    <h4 class="currentDate pr-2 is-size-4 is-align-self"></h4>
-                    <h4 class="currentWeather pr-2 is-size-4 is-align-self"></h4>
-                    <img class="weatherIcon">
+            <!-- Current Weather Section -->
+            <div id="currentWeather" class="columns is-flex-wrap card p-5 m-0 is-space-around">
+                <div class="column is-two-thirds-desktop is-full-tablet">
+                    <h3 id="currentCity" class="title is-3 m-0"><span id="currentCityTitle" class="pr-2">Toronto</span></h3>
+                    <div class="is-flex is-flex-wrap">
+                        <h4 class="currentDate pt-2 is-size-4 is-align-self width-100"></h4>
+                        <h4 class="currentWeather pr-2 is-size-4 is-align-self is-capitalize"></h4>
+                        <img class="weatherIcon">
+                    </div>
+                    <p class="is-capitalized mb-2">Temp : <span class="tempData"></span></p>
+                    <p class="is-capitalized mb-2">Wind : <span class="windData"></span></p>
+                    <p class="is-capitalized mb-2">Humidity : <span class="humidData"></span></p>
+                    <p class="is-capitalized mb-2">UV Index : <span class="uvInData"></span></p>
                 </div>
-                <p class="is-capitalized mb-2">Temp : <span class="tempData"></span></p>
-                <p class="is-capitalized mb-2">Wind : <span class="windData"></span></p>
-                <p class="is-capitalized mb-2">Humidity : <span class="humidData"></span></p>
-                <p class="is-capitalized mb-2">UV Index : <span class="uvInData"></span></p>
+                <!-- Temp Display Section -->
+                <div class="column is-one-third is-align-self min-width-200">
+                    <div class="tempDisplayCont w-fit-content m-auto p-5">
+                        <h4 id="tempDisplay" class="m-0 is-font-size-xl"></h4>
+                        <p id="feelsLike" class=""></p>
+                    </div>
+                </div>
             </div>
 
+            <!-- Five Day Forcast Column -->
             <div class="mt-5 p-1">
                 <h3 class="title is-3">5 Day Forcast</h3>
                 <div id="fiveDayForcast" class="columns is-flex-wrap"> 
@@ -62,6 +74,11 @@
             </div>
         </div>
     </main>
+    <footer class="py-5 px-3">
+        <div class="content has-text-centered">
+            <p>© All Rights Reserved | Made with ❤️ by Clinton.</p>
+        </div>
+    </footer>
     <!-- Link js file -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.4/plugin/utc.min.js"></script>

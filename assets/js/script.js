@@ -6,6 +6,10 @@ var incorrectCityVal = "";
 var defaultCitiesEl = document.querySelector("#defaultCities");
 var recentCities = ["New York City, US", "Melbourne, AU", "London, UK", "Nigara Falls, CA","Montreal", "Brampton", "Mississauga", "Toronto"];
 
+// DayJs Plugins
+dayjs.extend(window.dayjs_plugin_utc);
+dayjs.extend(window.dayjs_plugin_timezone);
+
 // API for Google Coordinates
 var apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
 
@@ -20,12 +24,7 @@ var cityInputButtonHandler = cityInputForm.addEventListener("submit", function(e
     apiGoogleCoordCall(apiUrlGoogleCoordinates);
     //reset the form
     cityInputForm.reset();
-
-    //errorValidationForCity(incorrectCityVal);
 });
-
-dayjs.extend(window.dayjs_plugin_utc);
-dayjs.extend(window.dayjs_plugin_timezone);
 
 var errorValidationForCity = function(error) {
     var errorMsgEl = document.querySelector(".errorMsg");
@@ -159,7 +158,7 @@ var passGoogleData = function(data) {
     var lng = data.results[0].geometry.location.lng;
     //console.log("this is lat", lng);
     var currentCityTitle = document.querySelector("#currentCityTitle");
-    currentCityTitle.textContent = data.results[0].formatted_address;
+    currentCityTitle.innerHTML ='<i class="fas fa-map-marker-alt"></i> ' + data.results[0].formatted_address;
 
     //API url
     apiUrlCurrentWeather = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lng + "&units=metric&appid=147c783a9d14b60563419ed8e17c02ec&";
@@ -186,12 +185,15 @@ var displayCurrentWeather = function(data) {
     var weatherIcon = document.querySelector(".weatherIcon");
     var dateEl = document.querySelector(".currentDate");
     var weatherEl = document.querySelector(".currentWeather");
+    var tempDisplay = document.querySelector("#tempDisplay");
+    var uvIndData = data.current.uvi;
+    var feelsLike = document.querySelector("#feelsLike");
     //currentCityTitle.textContent = cityValue;
     weatherIcon.setAttribute("src", "https://openweathermap.org/img/wn/" + data.current.weather[0].icon +".png");
     // var currentDate = new Date();
     // var date = currentDate.getFullYear()+'/'+(currentDate.getMonth()+1)+'/'+currentDate.getDate();
-    dateEl.textContent = ` (${dayjs.unix(data.current.dt).format('MMMM D, YYYY')})`;
-    weatherEl.textContent = " - " + data.current.weather[0].main;
+    dateEl.innerHTML ='<i class="far fa-clock"></i> ' + dayjs().tz(data.timezone).format('MMMM D, YYYY h:mm A');
+    weatherEl.innerHTML = '<i class="fas fa-info-circle"></i> ' + data.current.weather[0].description;
 
     //var currentWeather = document.querySelector("#currentWeather");
     var temp = document.querySelector(".tempData");
@@ -204,11 +206,28 @@ var displayCurrentWeather = function(data) {
     humid.textContent = data.current.humidity + " %";
     uvInd.textContent = data.current.uvi;
 
-    console.log(dayjs().tz(data.timezone));
+    tempDisplay.innerHTML = Math.round(data.current.temp) + "<span class='is-size-4'> °C </span>";
+    feelsLike.innerHTML = "Feels like: " + Math.round(data.current.feels_like) + " °C";
+
+    // set the backgound color
+    if (uvIndData < 2) {
+        uvInd.classList.add("bg-green");
+        uvInd.classList.remove("bg-orange");
+        uvInd.classList.remove("bg-red");
+    } else if (uvIndData < 5) {
+        uvInd.classList.add("bg-orange");
+        uvInd.classList.remove("bg-green");
+        uvInd.classList.remove("bg-red");
+    } else {
+        uvInd.classList.add("bg-red"); 
+        uvInd.classList.remove("bg-green");
+        uvInd.classList.remove("bg-orange");
+    }
 
     //pass the data to fiveDayForcast
     fiveDayForcast(data);
 }
+
 
 var fiveDayForcast = function(data) {
     var forcastEl = document.querySelector("#fiveDayForcast");
@@ -221,13 +240,13 @@ var fiveDayForcast = function(data) {
         fiveDayCard.classList = "column card p-3 m-2 min-width-200 five-day-card";
         forcastEl.appendChild(fiveDayCard);
         var dateEl = document.createElement("h4");
-        dateEl.textContent = dayjs.unix(data.daily[i].dt).format('MMMM D, YYYY') + " - " + data.daily[i].weather[0].main;
+        dateEl.innerHTML = '<i class="fas fa-calendar-day"></i> ' + dayjs.unix(data.daily[i].dt).format('MMMM D, YYYY') + " - " + data.daily[i].weather[0].main;
         fiveDayCard.appendChild(dateEl);
         var dateIconEl = document.createElement("img");
         dateIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon +".png");
         fiveDayCard.appendChild(dateIconEl);
         var tempEl = document.createElement("p");
-        tempEl.textContent = "Temp : " + data.daily[i].temp.max + "/" + data.daily[i].temp.min + " °C";
+        tempEl.innerHTML = "Temp : " + data.daily[i].temp.max + "/" + data.daily[i].temp.min + " °C";
         fiveDayCard.appendChild(tempEl);
         var windEl = document.createElement("p");
         windEl.textContent = "Wind : " + data.daily[i].wind_speed + " KM/h";
