@@ -1,29 +1,46 @@
 // Variables
-var cityInput = document.querySelector("#cityForm");
+var cityInputForm = document.querySelector("#cityForm");
 var currentLocButton = document.querySelector("#currentLocButton");
 var cityValue = "Toronto";
+var incorrectCityVal = "";
 var defaultCitiesEl = document.querySelector("#defaultCities");
-var recentCities = ["Edmonton", "Ottowa", "London", "Nigara","Mississauga", "Brampton", "North York", "Toronto"];
+var recentCities = ["New York City, US", "Melbourne, AU", "London, UK", "Nigara Falls, CA","Montreal", "Brampton", "Mississauga", "Toronto"];
 
 // API for Google Coordinates
 var apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
 
 //function for the submit Button
-var cityInputButtonHandler = cityInput.addEventListener("submit", function(event) {
+var cityInputButtonHandler = cityInputForm.addEventListener("submit", function(event) {
     event.preventDefault();
-    var errorMsgEl = document.querySelector(".errorMsg");
     cityValue = document.querySelector("#cityInput").value.trim();
 
-    if(!cityValue) {
+    //API url
+    apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
+    //Pass the url
+    apiGoogleCoordCall(apiUrlGoogleCoordinates);
+    //reset the form
+    cityInputForm.reset();
+
+    //errorValidationForCity(incorrectCityVal);
+});
+
+dayjs.extend(window.dayjs_plugin_utc);
+dayjs.extend(window.dayjs_plugin_timezone);
+
+var errorValidationForCity = function(error) {
+    var errorMsgEl = document.querySelector(".errorMsg");
+    if(!cityValue || !error) {
+        console.log(error)
         errorMsgEl.classList.remove("notification-hide");
         errorMsgEl.classList.add("notification-display");
-        return;
+        //return;
     } else {
         if(errorMsgEl) {
             errorMsgEl.classList.remove("notification-display");
             errorMsgEl.classList.add("notification-hide");
             // errorMsgEl.style.display = "none";
-        }
+        } 
+        console.log("this is error", error);
         //save the new city value in recentCities
         recentCities.push(cityValue);
         //remove the duplicates
@@ -37,14 +54,9 @@ var cityInputButtonHandler = cityInput.addEventListener("submit", function(event
         saveData();
         //load data when the button is clicked
         loadData();
-
-        //API url
-        apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
-        //Pass the url
-        apiGoogleCoordCall(apiUrlGoogleCoordinates);
-        }
-    
-});
+    }
+        
+};
 
 // Function to create the recent cities buttons
 var recentCitiesButtons = function() {
@@ -117,11 +129,26 @@ currentLocButton.addEventListener("click", function() {
 var apiGoogleCoordCall = function(url) {
     fetch(url)
     .then(function(response) {
-        response.json()
-        .then(function(data) {
-        //console.log(data);
-        passGoogleData(data);
-        })  
+        if(response.ok) {
+            response.json()
+            .then(function(data) {
+            passGoogleData(data);
+            if(data) {
+                incorrectCityVal = true; 
+                errorValidationForCity(incorrectCityVal);
+            }
+            }).catch(function(error) {
+                console.log("got an error", error)
+                incorrectCityVal = false;
+                errorValidationForCity(incorrectCityVal);
+            });
+        } else {
+            console.log("got an error", response.ok);
+            incorrectCityVal = response.ok;
+            //errorValidationForCity(incorrectCityVal);
+            errorValidationForCity(incorrectCityVal);
+        }
+        
     });
 };
 
@@ -147,7 +174,7 @@ var apiWeatherCall = function(url) {
     .then(function(response) {
         response.json()
         .then(function(data) {
-        //console.log(data);
+            console.log("data is ", data);
         displayCurrentWeather(data);
         })  
     });
@@ -176,6 +203,8 @@ var displayCurrentWeather = function(data) {
     wind.textContent = data.current.wind_speed + " KM/h";
     humid.textContent = data.current.humidity + " %";
     uvInd.textContent = data.current.uvi;
+
+    console.log(dayjs().tz(data.timezone));
 
     //pass the data to fiveDayForcast
     fiveDayForcast(data);
