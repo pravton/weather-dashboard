@@ -1,46 +1,57 @@
 // Variables
 var cityInputForm = document.querySelector("#cityForm");
 var currentLocButton = document.querySelector("#currentLocButton");
-var cityValue = "Toronto";
 var incorrectCityVal = "";
 var defaultCitiesEl = document.querySelector("#defaultCities");
 var recentCities = ["New York City, US", "Melbourne, AU", "London, UK", "Nigara Falls, CA","Montreal", "Brampton", "Mississauga", "Toronto"];
+var cityValue = "Toronto";
+var errorMsgEl = document.querySelector(".errorMsg");
 
 // DayJs Plugins
 dayjs.extend(window.dayjs_plugin_utc);
 dayjs.extend(window.dayjs_plugin_timezone);
-
-// API for Google Coordinates
-var apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
 
 //function for the submit Button
 var cityInputButtonHandler = cityInputForm.addEventListener("submit", function(event) {
     event.preventDefault();
     cityValue = document.querySelector("#cityInput").value.trim();
 
+    //check if the cityinput is empty, if so alert the user
+    if(!cityValue) {
+        errorMsgEl.classList.remove("notification-hide");
+        errorMsgEl.classList.add("notification-display");
+    } else {
+        errorMsgEl.classList.remove("notification-display");
+        errorMsgEl.classList.add("notification-hide");
+    }
+
+    //remove the element from array if it is duplicate
+    removeElement(recentCities, cityValue);
+
     //API url
-    apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
+    var newApiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
     //Pass the url
-    apiGoogleCoordCall(apiUrlGoogleCoordinates);
+    apiGoogleCoordCall(newApiUrlGoogleCoordinates);
     //reset the form
     cityInputForm.reset();
+
 });
 
+//error validation when the through google data
 var errorValidationForCity = function(error) {
-    var errorMsgEl = document.querySelector(".errorMsg");
-    if(!cityValue || !error) {
-        console.log(error)
+    if (!cityValue) {
+        return;
+    }
+    else if(!error) {
         errorMsgEl.classList.remove("notification-hide");
         errorMsgEl.classList.add("notification-display");
         //return;
     } else {
-        if(errorMsgEl) {
+        if(errorMsgEl.classList.contains("notification-display")) {
             errorMsgEl.classList.remove("notification-display");
             errorMsgEl.classList.add("notification-hide");
             // errorMsgEl.style.display = "none";
         } 
-        console.log("this is error", error);
-        //save the new city value in recentCities
         recentCities.push(cityValue);
         //remove the duplicates
         recentCities = [...new Set(recentCities)]
@@ -51,10 +62,20 @@ var errorValidationForCity = function(error) {
 
         //save data when the button is clicked
         saveData();
+
         //load data when the button is clicked
         loadData();
+        
     }
         
+};
+
+//remove the array element if it is duplicate
+function removeElement(array, el) {
+    var index = array.indexOf(el);
+    if (index > -1) {
+        array.splice(index, 1);
+    }
 };
 
 // Function to create the recent cities buttons
@@ -85,9 +106,13 @@ var loadData = function() {
     //if the local storage is empty save the default list to local storage
     if (!loadedData) {
         saveData();
+        return;
     } else {
         recentCities = loadedData;
     }
+
+    //update the city value to the recent city
+    cityValue = recentCities[recentCities.length-1];
 
     //create the buttons with loaded data
     recentCitiesButtons();
@@ -99,8 +124,12 @@ defaultCitiesEl.addEventListener("click", function(event) {
     if (event.target.matches(".button")) {
         var targetCity = event.target.innerHTML;
         cityValue = targetCity;
-        apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
-        apiGoogleCoordCall(apiUrlGoogleCoordinates);
+
+        //remove the element from array if it is duplicate
+        removeElement(recentCities, cityValue);
+
+        var newApiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
+        apiGoogleCoordCall(newApiUrlGoogleCoordinates);
     }
 
 });
@@ -108,20 +137,22 @@ defaultCitiesEl.addEventListener("click", function(event) {
 //get the current location and pass it to Open Weather to display the result
 currentLocButton.addEventListener("click", function() {
     var errorMsgEl = document.querySelector(".errorMsg");
-    if(errorMsgEl.classList.contains("notification-display")) {
-        errorMsgEl.classList.remove("notification-display");
-        errorMsgEl.classList.add("notification-hide");
-    }    
     navigator.geolocation.getCurrentPosition((data) => {
         //const geocoder = new google.maps.Geocoder();
             var lat = data.coords.latitude;
             var lng = data.coords.longitude;
 
         //create the url based on the current latlng
-        reverseLookupurl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +lat+ "," + lng + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
+        reverseLookupurl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
         //pass the url to apiGoogleCoordCall
         apiGoogleCoordCall(reverseLookupurl);
     });
+
+    if(errorMsgEl) {
+        console.log("eeror ckdjkdj")
+        errorMsgEl.classList.remove("notification-display");
+        errorMsgEl.classList.add("notification-hide");
+    }
 });
 
 //API call function to get the city lat and lng
@@ -133,18 +164,15 @@ var apiGoogleCoordCall = function(url) {
             .then(function(data) {
             passGoogleData(data);
             if(data) {
-                incorrectCityVal = true; 
+                incorrectCityVal = response.ok; 
                 errorValidationForCity(incorrectCityVal);
             }
             }).catch(function(error) {
-                console.log("got an error", error)
-                incorrectCityVal = false;
+                incorrectCityVal = response.ok;
                 errorValidationForCity(incorrectCityVal);
             });
         } else {
-            console.log("got an error", response.ok);
             incorrectCityVal = response.ok;
-            //errorValidationForCity(incorrectCityVal);
             errorValidationForCity(incorrectCityVal);
         }
         
@@ -173,7 +201,6 @@ var apiWeatherCall = function(url) {
     .then(function(response) {
         response.json()
         .then(function(data) {
-            console.log("data is ", data);
         displayCurrentWeather(data);
         })  
     });
@@ -186,10 +213,11 @@ var displayCurrentWeather = function(data) {
     var dateEl = document.querySelector(".currentDate");
     var weatherEl = document.querySelector(".currentWeather");
     var tempDisplay = document.querySelector("#tempDisplay");
+    var imgDisplay = document.querySelector("#imgDisplay")
     var uvIndData = data.current.uvi;
     var feelsLike = document.querySelector("#feelsLike");
     //currentCityTitle.textContent = cityValue;
-    weatherIcon.setAttribute("src", "https://openweathermap.org/img/wn/" + data.current.weather[0].icon +".png");
+    //weatherIcon.setAttribute("src", "https://openweathermap.org/img/wn/" + data.current.weather[0].icon +".png");
     // var currentDate = new Date();
     // var date = currentDate.getFullYear()+'/'+(currentDate.getMonth()+1)+'/'+currentDate.getDate();
     dateEl.innerHTML ='<i class="far fa-clock"></i> ' + dayjs().tz(data.timezone).format('MMMM D, YYYY h:mm A');
@@ -206,8 +234,9 @@ var displayCurrentWeather = function(data) {
     humid.textContent = data.current.humidity + " %";
     uvInd.textContent = data.current.uvi;
 
+    imgDisplay.setAttribute("src", "https://openweathermap.org/img/wn/" + data.current.weather[0].icon +".png")
     tempDisplay.innerHTML = Math.round(data.current.temp) + "<span class='is-size-4'> °C </span>";
-    feelsLike.innerHTML = "Feels like: " + Math.round(data.current.feels_like) + " °C";
+    feelsLike.innerHTML = "Feels Like: " + Math.round(data.current.feels_like) + " °C";
 
     // set the backgound color
     if (uvIndData < 2) {
@@ -226,7 +255,7 @@ var displayCurrentWeather = function(data) {
 
     //pass the data to fiveDayForcast
     fiveDayForcast(data);
-}
+};
 
 
 var fiveDayForcast = function(data) {
@@ -240,22 +269,25 @@ var fiveDayForcast = function(data) {
         fiveDayCard.classList = "column card p-3 m-2 min-width-200 five-day-card";
         forcastEl.appendChild(fiveDayCard);
         var dateEl = document.createElement("h4");
-        dateEl.innerHTML = '<i class="fas fa-calendar-day"></i> ' + dayjs.unix(data.daily[i].dt).format('MMMM D, YYYY') + " - " + data.daily[i].weather[0].main;
+        dateEl.innerHTML = '<i class="fas fa-calendar-day"></i>&nbsp ' + dayjs.unix(data.daily[i].dt).format('MMMM D, YYYY') + " - " + data.daily[i].weather[0].main;
         fiveDayCard.appendChild(dateEl);
+        var iconEl = document.createElement("div");
+        iconEl.classList = "is-text-align";
+        fiveDayCard.appendChild(iconEl);
         var dateIconEl = document.createElement("img");
-        dateIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon +".png");
-        fiveDayCard.appendChild(dateIconEl);
+        dateIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon +"@2x.png");
+        iconEl.appendChild(dateIconEl);
         var tempEl = document.createElement("p");
-        tempEl.innerHTML = "Temp : " + data.daily[i].temp.max + "/" + data.daily[i].temp.min + " °C";
+        tempEl.innerHTML = "<i class='fas fa-thermometer-half'></i>&nbsp Temp : " + data.daily[i].temp.max + "/" + data.daily[i].temp.min + " °C";
         fiveDayCard.appendChild(tempEl);
         var windEl = document.createElement("p");
-        windEl.textContent = "Wind : " + data.daily[i].wind_speed + " KM/h";
+        windEl.innerHTML = "<i class='fas fa-wind'></i> Wind : " + data.daily[i].wind_speed + " KM/h";
         fiveDayCard.appendChild(windEl);
         var HumidEl = document.createElement("p");
-        HumidEl.textContent = "Humidity : " + data.daily[i].humidity + " %";
+        HumidEl.innerHTML = "<i class='fas fa-tint'></i>&nbsp Humidity : " + data.daily[i].humidity + " %";
         fiveDayCard.appendChild(HumidEl);
     }
-}
+};
 
 //Buttons container collapse function on mobile. 
 var collapseButton = document.querySelector(".collapsible");
@@ -270,8 +302,11 @@ collapseButton.addEventListener("click", function() {
     }
 });
 
-//call the google coord for the default city
-apiGoogleCoordCall(apiUrlGoogleCoordinates);
-
 //load the data from local storage
 loadData();
+
+// API for Google Coordinates
+var apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
+
+//call the apiGoogleCoordCall when the page loads
+apiGoogleCoordCall(apiUrlGoogleCoordinates);

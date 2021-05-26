@@ -3,6 +3,9 @@ body {
     background-color: #a6d6d6;
     min-height: 100vh;
     font-family: 'Montserrat', sans-serif;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between; */
 }
 
 h1,h2,h3,h4,h5,h6,a {
@@ -50,6 +53,10 @@ p {
     padding-bottom: 10px;
 }
 
+.label {
+    font-weight: 600;
+}
+
 .button.is-info.is-light {
     background-color: #a6d6d64f; 
     color: #4e6d6d;
@@ -83,7 +90,7 @@ p {
 }
 
 .is-font-size-xl {
-    font-size: 70px;
+    font-size: 75px;
 }
 
 .tempDisplayCont {
@@ -93,10 +100,22 @@ p {
     height: 200px;
     box-shadow: 0 0 3px grey;
     margin: auto;
-    display: flex;
+    text-align: center;
+    /* display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; */
+}
 
+#imgDisplay {
+    margin-top: -10px;
+}
+
+#tempDisplay {
+    margin-top: -30px;
+}
+
+#feelsLike {
+    margin-top: -20px;
 }
 
 .uvInData {
@@ -106,6 +125,10 @@ p {
     padding-bottom: 5px;
     color: white;
     border-radius: 5px;
+}
+
+.is-text-align {
+    text-align: center;
 }
 
 .bg-green {
@@ -120,7 +143,27 @@ p {
     background-color: #D1394A;
 }
 
+#loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media only screen and (max-width: 770px) {
+    #currentWeather {
+        display: flex;
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+
+    .date-time {
+        justify-content: center;
+    }
+
+    .title.is-1 {
+        font-size: 2rem;
+    }
+
     .collapsible {
         width: 100%;
         cursor: pointer;
