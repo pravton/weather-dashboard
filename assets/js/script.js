@@ -65,8 +65,6 @@ var errorValidationForCity = function(error) {
 
         //load data when the button is clicked
         loadData();   
-        
-        console.log("executed errorValidationForCity")
     }
         
 };
@@ -157,7 +155,6 @@ var getCurrentLocation = function() {
     
     // remove the validation notification
     if(errorMsgEl) {
-        console.log("eeror")
         errorMsgEl.classList.remove("notification-display");
         errorMsgEl.classList.add("notification-hide");
     }
@@ -268,7 +265,6 @@ var displayCurrentWeather = function(data) {
 var fiveDayForcast = function(data) {
     var forcastEl = document.querySelector("#fiveDayForcast");
     forcastEl.innerHTML = "";
-    //console.log("5day", forcastEl);
 
     //loop the 5 day cards
     for(var i = 1; i < 6; i++) {
