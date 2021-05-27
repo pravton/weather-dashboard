@@ -273,7 +273,7 @@ var fiveDayForcast = function(data) {
     //loop the 5 day cards
     for(var i = 1; i < 6; i++) {
         var fiveDayCard = document.createElement("div");
-        fiveDayCard.classList = "column card p-3 m-2 min-width-200 five-day-card";
+        fiveDayCard.classList = "column card p-3 m-2 min-width-250 five-day-card";
         forcastEl.appendChild(fiveDayCard);
         var dateEl = document.createElement("h4");
         dateEl.innerHTML = '<i class="fas fa-calendar-day"></i>&nbsp ' + dayjs.unix(data.daily[i].dt).format('MMMM D, YYYY') + " - " + data.daily[i].weather[0].main;
