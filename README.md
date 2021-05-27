@@ -31,7 +31,7 @@ User wants to see the weather outlook for multiple cities so that the use can pl
 [**Click Here**](https://pravton.github.io/weather-dashboard/) to view the project in Github Pages.
 
 ## Mockup
-![Mockup Image!](./assets/images/mockup.gif "Mockup")
+![Mockup Image!](./assets/images/mockup.png "Mockup")
 
 ## Final Output
 >### NOTE
@@ -40,4 +40,4 @@ User wants to see the weather outlook for multiple cities so that the use can pl
 > - Display location for user's current location
 > - Display Date and Time for the location
 
-![Final Output Of The Website!](./assets/images/final-product.jpg "Final Output Of The Website")
+![Final Output Of The Website!](./assets/images/final-product.JPG "Final Output Of The Website")
