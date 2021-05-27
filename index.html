@@ -4,13 +4,88 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bulma CDN link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
     <!-- Link css -->
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Weather Dashboard</title>
 </head>
 <body>
-    
+    <!-- header -->
+    <header class="p-3">
+        <div class="title is-1 box has-text-centered ">
+            Weather Dashboard
+        </div>  
+    </header>
+    <!-- main content -->
+    <main class="columns m-0">
+        <div class="is-one-quarter m-3">
+            <div class="card p-5">
+                <div class="field">
+                    <label class="label is-size-5 is-align">Search for a City <i class="fas fa-search"></i></label>
+                    <form id="cityForm" class="control">
+                      <input id="cityInput" class="input" type="text" placeholder="Toronto">
+                      <button type="submit" class="button mt-2 is-fullwidth is-info is-light">Search</button>
+                    </form>
+                    <button id="currentLocButton" class="button mt-2 is-fullwidth is-info is-light">Current Location</button>
+                    <div class="errorMsg notification-hide notification is-danger">Please enter a valid city!</div>
+                  </div>
+            </div>
+            <!-- Default Cities -->
+            <div id="defaultCities" class="card p-5 mt-5">
+                <h5 class="collapsible is-size-5 is-align">Choose a City <i class="far fa-hand-point-up"></i></h5>
+                <div id="recentCities" class="buttonsContainer"></div>
+            </div>
+        </div>
+        <!-- Display Column -->
+        <div class="column">
+            <!-- Current Weather Section -->
+            <div id="currentWeather" class="columns is-flex-wrap card p-5 m-0 is-space-around">
+                <div class="column is-two-thirds-desktop is-full-tablet">
+                    <h3 id="currentCity" class="title is-3 m-0"><i class="fas fa-map-marker-alt"></i><span id="currentCityTitle" class="pr-2 ml-2"></span></h3>
+                    <div class="date-time mb-2">
+                        <h4 class="pt-2 is-size-4 is-align-self width-100"><i class="far fa-clock"></i><span class="currentDate ml-2"></span></h4>
+                        <h4 class="pt-2 is-size-4 is-align-self is-capitalize"><i class="fas fa-info-circle"></i><span class="currentWeather ml-2"></span></h4>
+                        <!-- <img class="weatherIcon"> -->
+                    </div>
+                    <div class="weather-data-container">
+                        <div class="is-flex is-align-center mb-2"><i class="icon fas fa-thermometer-half"></i><p class="ml-2">Temp : <span class="tempData"></span></p></div>
+                        <div class="is-flex is-align-center mb-2"><i class="icon fas fa-wind"></i><p class="ml-2">Wind : <span class="windData"></span></p></div>
+                        <div class="is-flex is-align-center mb-2"><i class="icon fas fa-tint"></i><p class="ml-2">Humidity : <span class="humidData"></span></p></div>
+                        <div class="is-flex is-align-center mb-2"><i class="icon far fa-sun"></i><p class="ml-2">UV Index : <span class="uvInData"></span></p></div>
+                    </div>
+                </div>
+                <!-- Temp Display Section -->
+                <div class="column is-one-third is-align-self">
+                    <div class="tempDisplayCont w-fit-content m-auto p-5">
+                        <img id=imgDisplay src="" alt="">
+                        <h4 id="tempDisplay" class="is-font-size-xl"></h4>
+                        <p id="feelsLike" class=""></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Five Day Forcast Column -->
+            <div class="mt-5 p-1">
+                <h3 class="title is-3">5 Day Forcast</h3>
+                <div id="fiveDayForcast" class="columns is-flex-wrap"> 
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="py-5 px-3">
+        <div class="content has-text-centered">
+            <p>© All Rights Reserved | Made with ❤️ by Clinton.</p>
+        </div>
+    </footer>
     <!-- Link js file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.4/plugin/utc.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.4/plugin/timezone.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
