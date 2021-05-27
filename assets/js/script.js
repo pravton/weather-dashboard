@@ -64,8 +64,9 @@ var errorValidationForCity = function(error) {
         saveData();
 
         //load data when the button is clicked
-        loadData();
+        loadData();   
         
+        console.log("executed errorValidationForCity")
     }
         
 };
@@ -91,6 +92,7 @@ var recentCitiesButtons = function() {
 
         buttonsContainer.appendChild(buttonsEl);
     }
+
 };
 
 //Function to save the data
@@ -136,6 +138,10 @@ defaultCitiesEl.addEventListener("click", function(event) {
 
 //get the current location and pass it to Open Weather to display the result
 currentLocButton.addEventListener("click", function() {
+    getCurrentLocation();
+});
+
+var getCurrentLocation = function() {
     var errorMsgEl = document.querySelector(".errorMsg");
     navigator.geolocation.getCurrentPosition((data) => {
         //const geocoder = new google.maps.Geocoder();
@@ -146,14 +152,17 @@ currentLocButton.addEventListener("click", function() {
         reverseLookupurl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";
         //pass the url to apiGoogleCoordCall
         apiGoogleCoordCall(reverseLookupurl);
-    });
 
+    });
+    
+    // remove the validation notification
     if(errorMsgEl) {
-        console.log("eeror ckdjkdj")
+        console.log("eeror")
         errorMsgEl.classList.remove("notification-display");
         errorMsgEl.classList.add("notification-hide");
     }
-});
+
+};
 
 //API call function to get the city lat and lng
 var apiGoogleCoordCall = function(url) {
@@ -186,7 +195,7 @@ var passGoogleData = function(data) {
     var lng = data.results[0].geometry.location.lng;
     //console.log("this is lat", lng);
     var currentCityTitle = document.querySelector("#currentCityTitle");
-    currentCityTitle.innerHTML ='<i class="fas fa-map-marker-alt"></i> ' + data.results[0].formatted_address;
+    currentCityTitle.textContent = data.results[0].formatted_address;
 
     //API url
     apiUrlCurrentWeather = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lng + "&units=metric&appid=147c783a9d14b60563419ed8e17c02ec&";
@@ -209,19 +218,17 @@ var apiWeatherCall = function(url) {
 //display the data for current city
 var displayCurrentWeather = function(data) {
     //var currentCityTitle = document.querySelector("#currentCityTitle");
-    var weatherIcon = document.querySelector(".weatherIcon");
+    //var weatherIcon = document.querySelector(".weatherIcon");
     var dateEl = document.querySelector(".currentDate");
     var weatherEl = document.querySelector(".currentWeather");
     var tempDisplay = document.querySelector("#tempDisplay");
     var imgDisplay = document.querySelector("#imgDisplay")
     var uvIndData = data.current.uvi;
     var feelsLike = document.querySelector("#feelsLike");
-    //currentCityTitle.textContent = cityValue;
-    //weatherIcon.setAttribute("src", "https://openweathermap.org/img/wn/" + data.current.weather[0].icon +".png");
-    // var currentDate = new Date();
-    // var date = currentDate.getFullYear()+'/'+(currentDate.getMonth()+1)+'/'+currentDate.getDate();
-    dateEl.innerHTML ='<i class="far fa-clock"></i> ' + dayjs().tz(data.timezone).format('MMMM D, YYYY h:mm A');
-    weatherEl.innerHTML = '<i class="fas fa-info-circle"></i> ' + data.current.weather[0].description;
+
+    // Date and time based on the location
+    dateEl.textContent = dayjs().tz(data.timezone).format('MMMM D, YYYY h:mm A');
+    weatherEl.textContent = data.current.weather[0].description;
 
     //var currentWeather = document.querySelector("#currentWeather");
     var temp = document.querySelector(".tempData");
@@ -234,11 +241,11 @@ var displayCurrentWeather = function(data) {
     humid.textContent = data.current.humidity + " %";
     uvInd.textContent = data.current.uvi;
 
-    imgDisplay.setAttribute("src", "https://openweathermap.org/img/wn/" + data.current.weather[0].icon +".png")
-    tempDisplay.innerHTML = Math.round(data.current.temp) + "<span class='is-size-4'> °C </span>";
+    imgDisplay.setAttribute("src", "https://openweathermap.org/img/wn/" + data.current.weather[0].icon +"@2x.png")
+    tempDisplay.innerHTML = Math.round(data.current.temp) + "<span class='is-size-5'> °C </span>";
     feelsLike.innerHTML = "Feels Like: " + Math.round(data.current.feels_like) + " °C";
 
-    // set the backgound color
+    // set the backgound color for UVindex
     if (uvIndData < 2) {
         uvInd.classList.add("bg-green");
         uvInd.classList.remove("bg-orange");
@@ -272,7 +279,6 @@ var fiveDayForcast = function(data) {
         dateEl.innerHTML = '<i class="fas fa-calendar-day"></i>&nbsp ' + dayjs.unix(data.daily[i].dt).format('MMMM D, YYYY') + " - " + data.daily[i].weather[0].main;
         fiveDayCard.appendChild(dateEl);
         var iconEl = document.createElement("div");
-        iconEl.classList = "is-text-align";
         fiveDayCard.appendChild(iconEl);
         var dateIconEl = document.createElement("img");
         dateIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon +"@2x.png");
@@ -302,8 +308,8 @@ collapseButton.addEventListener("click", function() {
     }
 });
 
-//load the data from local storage
-loadData();
+// load the old data when reloads the page
+loadData(); 
 
 // API for Google Coordinates
 var apiUrlGoogleCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=" + cityValue + "&key=AIzaSyAhOZZGJoUqHE0c14emapGTAXw11nkiHqs";

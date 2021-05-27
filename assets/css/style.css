@@ -40,6 +40,10 @@ p {
     text-transform: capitalize;
 }
 
+.is-align-center {
+    align-items: center;
+}
+
 .is-space-around {
     justify-content: space-around;
 }
@@ -51,6 +55,10 @@ p {
 /* custom style */
 .five-day-card p {
     padding-bottom: 10px;
+}
+
+.icon {
+    min-width: 20px;
 }
 
 .label {
@@ -90,7 +98,7 @@ p {
 }
 
 .is-font-size-xl {
-    font-size: 75px;
+    font-size: 70px;
 }
 
 .tempDisplayCont {
@@ -107,15 +115,21 @@ p {
 }
 
 #imgDisplay {
-    margin-top: -10px;
+    margin-top: -30px;
+    width: 80px;
+}
+
+#imgDisplay img {
+    
 }
 
 #tempDisplay {
-    margin-top: -30px;
+    font-size: 70px;
+    margin-top: -40px;
 }
 
 #feelsLike {
-    margin-top: -20px;
+    margin-top: -15px;
 }
 
 .uvInData {
@@ -153,7 +167,6 @@ p {
     #currentWeather {
         display: flex;
         flex-direction: column-reverse;
-        text-align: center;
     }
 
     .date-time {
@@ -162,6 +175,15 @@ p {
 
     .title.is-1 {
         font-size: 2rem;
+    }
+
+    .weather-data-container {
+        min-width: 60%;
+        margin: 0 auto;
+    }
+
+    .is-align-center {
+        justify-content: start;
     }
 
     .collapsible {
@@ -175,11 +197,15 @@ p {
         transition: max-height 0.2s ease-out;
       }
 
-      .title.is-3 {
-        font-size: 6vw;
+      
+}
+
+@media only screen and (max-width: 540px) {
+    .title.is-3 {
+        font-size: 5.5vw;
       }
 
       .is-size-4 {
-        font-size: 5vw !important;  
+        font-size:5vw !important;  
       }
 }
