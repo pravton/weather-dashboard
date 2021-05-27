@@ -46,16 +46,18 @@
             <!-- Current Weather Section -->
             <div id="currentWeather" class="columns is-flex-wrap card p-5 m-0 is-space-around">
                 <div class="column is-two-thirds-desktop is-full-tablet">
-                    <h3 id="currentCity" class="title is-3 m-0"><span id="currentCityTitle" class="pr-2"></span></h3>
+                    <h3 id="currentCity" class="title is-3 m-0"><i class="fas fa-map-marker-alt"></i><span id="currentCityTitle" class="pr-2 ml-2"></span></h3>
                     <div class="date-time mb-2">
-                        <h4 class="currentDate pt-2 is-size-4 is-align-self width-100"></h4>
-                        <h4 class="currentWeather pt-2 is-size-4 is-align-self is-capitalize"></h4>
+                        <h4 class="pt-2 is-size-4 is-align-self width-100"><i class="far fa-clock"></i><span class="currentDate ml-2"></span></h4>
+                        <h4 class="pt-2 is-size-4 is-align-self is-capitalize"><i class="fas fa-info-circle"></i><span class="currentWeather ml-2"></span></h4>
                         <!-- <img class="weatherIcon"> -->
                     </div>
-                    <p class="mb-2"><i class="fas fa-thermometer-half"></i>&nbsp Temp : <span class="tempData"></span></p>
-                    <p class="mb-2"><i class="fas fa-wind"></i> Wind : <span class="windData"></span></p>
-                    <p class="mb-2"><i class="fas fa-tint"></i>&nbsp Humidity : <span class="humidData"></span></p>
-                    <p class="mb-2"><i class="far fa-sun"></i> UV Index : <span class="uvInData"></span></p>
+                    <div class="weather-data-container">
+                        <div class="is-flex is-align-center mb-2"><i class="icon fas fa-thermometer-half"></i><p class="ml-2">Temp : <span class="tempData"></span></p></div>
+                        <div class="is-flex is-align-center mb-2"><i class="icon fas fa-wind"></i><p class="ml-2">Wind : <span class="windData"></span></p></div>
+                        <div class="is-flex is-align-center mb-2"><i class="icon fas fa-tint"></i><p class="ml-2">Humidity : <span class="humidData"></span></p></div>
+                        <div class="is-flex is-align-center mb-2"><i class="icon far fa-sun"></i><p class="ml-2">UV Index : <span class="uvInData"></span></p></div>
+                    </div>
                 </div>
                 <!-- Temp Display Section -->
                 <div class="column is-one-third is-align-self">
